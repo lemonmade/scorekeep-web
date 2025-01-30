@@ -5,7 +5,12 @@ export interface Environment {
 }
 
 function dispatch(request: Request, env: Environment) {
-  const worker = env.SCOREKEEP_BRANCHES.get('scorekeep-web');
+  const tophat = request.headers.get('Scorekeep-Web-Tophat');
+
+  const worker = tophat
+    ? env.SCOREKEEP_BRANCHES.get(`scorekeep-web:tophat:${tophat}`)
+    : env.SCOREKEEP_BRANCHES.get('scorekeep-web');
+
   return worker.fetch(request as any);
 }
 
