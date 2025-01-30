@@ -1,0 +1,22 @@
+{
+  "name": "scorekeep-web-dispatch",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rollup --config ./rollup.config.js",
+    "deploy": "wrangler deploy",
+    "start": "node ./build/server/server.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@quilted/request-router": "^0.3.1"
+  },
+  "sideEffects": [
+    "*.css",
+    "browser.tsx"
+  ],
+  "browserslist": [
+    "last 1 chrome version"
+  ]
+}

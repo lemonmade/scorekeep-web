@@ -1,0 +1,14 @@
+name = "scorekeep-web"
+
+compatibility_date = "2025-01-29"
+
+workers_dev = false
+
+main = "build/server/server.js"
+
+[build]
+command = ""
+
+# [site]
+# bucket = "./build/assets"
+# entry-point = "."
