@@ -1,0 +1,25 @@
+name: Tophat
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-app:
+    name: Deploy app to Cloudflare in tophat mode 🌥
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/prepare
+      - run: pnpm --filter ./app run build
+      - run: pnpm --filter ./app run deploy:tophat
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -1,0 +1,36 @@
+name: Checks
+
+on:
+  workflow_call:
+
+jobs:
+  lint:
+    name: Lint 💅
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/prepare
+      - run: pnpm run lint
+
+  type-check:
+    name: Type check 🧮
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/prepare
+      - run: pnpm exec prisma generate
+      - uses: ./.github/workflows/actions/type-check-with-cache
+
+  unit-tests:
+    name: Unit tests 🧪
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/prepare
+      # We need to generate schema types before running tests
+      - run: pnpm exec prisma generate
+      - uses: ./.github/workflows/actions/type-check-with-cache
+      - run: pnpm run test

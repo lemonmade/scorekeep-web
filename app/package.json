@@ -11,7 +11,8 @@
     "build": "rollup --config ./rollup.config.js",
     "develop": "vite --config ./vite.config.js",
     "test": "vitest --config ./vite.config.js",
-    "deploy": "wrangler deploy",
+    "deploy": "wrangler deploy --dispatch-namespace scorekeep-web-branches",
+    "deploy:tophat": "wrangler deploy --dispatch-namespace scorekeep-web-branches --name \"scorekeep-web:tophat:$(git rev-parse HEAD)\"",
     "start": "node ./build/server/server.js"
   },
   "dependencies": {},
