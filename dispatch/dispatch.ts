@@ -9,7 +9,7 @@ function dispatch(request: Request, env: Environment) {
 
   const worker = tophat
     ? env.SCOREKEEP_BRANCHES.get(`scorekeep-web:tophat:${tophat}`)
-    : env.SCOREKEEP_BRANCHES.get('scorekeep-web');
+    : env.SCOREKEEP_BRANCHES.get(`scorekeep-web:main`);
 
   return worker.fetch(request as any);
 }
