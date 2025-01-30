@@ -13,6 +13,10 @@ custom_domain = true
 [build]
 command = ""
 
+[[r2_buckets]]
+binding = "APP_ASSETS"
+bucket_name = "scorekeep-web-assets"
+
 [[dispatch_namespaces]]
 binding = "SCOREKEEP_BRANCHES"
 namespace = "scorekeep-web-branches"

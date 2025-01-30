@@ -18,6 +18,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/actions/prepare
       - run: pnpm --filter ./app run build
+      - run: ls -R
+      - name: Configure R2 credentials for AWS CLI
+        run: |
+          aws configure set region us-east-1
+          aws configure set aws_access_key_id ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_SECRET }}
+      - name: Sync app assets to R2
+        run: |
+          aws s3 sync ./app/build/assets/ s3://scorekeep-web-assets/assets/app/ --endpoint-url https://9bfdb755def60e50760e33036c6f1624.r2.cloudflarestorage.com --cache-control "public, max-age=31536000, immutable"
       - run: pnpm --filter ./app run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
