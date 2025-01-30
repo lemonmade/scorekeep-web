@@ -20,7 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/actions/prepare
-      - run: pnpm exec prisma generate
       - uses: ./.github/workflows/actions/type-check-with-cache
 
   unit-tests:
@@ -30,7 +29,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/actions/prepare
-      # We need to generate schema types before running tests
-      - run: pnpm exec prisma generate
-      - uses: ./.github/workflows/actions/type-check-with-cache
       - run: pnpm run test
