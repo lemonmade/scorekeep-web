@@ -13,11 +13,13 @@
     "typescript:watch": "tsx watch --conditions quilt:source"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.19.0",
     "@cloudflare/workers-types": "^4.20250129.0",
     "@quilted/cloudflare": "^0.3.3",
     "@quilted/rollup": "^0.2.0",
     "@quilted/vite": "^0.1.0",
     "@quilted/typescript": "^0.4.0",
+    "aws-sdk": "^2.935.0",
     "rollup": "^4.21.0",
     "prettier": "^3.3.0",
     "tsx": "^4.19.0",
