@@ -15,17 +15,17 @@
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.19.0",
     "@cloudflare/workers-types": "^4.20250129.0",
-    "@quilted/cloudflare": "^0.3.3",
-    "@quilted/rollup": "^0.2.0",
-    "@quilted/vite": "^0.1.0",
-    "@quilted/typescript": "^0.4.0",
+    "@quilted/cloudflare": "^0.4.0",
+    "@quilted/rollup": "^0.3.0",
+    "@quilted/vite": "^0.2.0",
+    "@quilted/typescript": "^0.4.2",
     "aws-sdk": "^2.935.0",
-    "rollup": "^4.21.0",
+    "rollup": "^4.34.0",
     "prettier": "^3.3.0",
     "tsx": "^4.19.0",
-    "typescript": "^5.5.0",
-    "vite": "^5.4.0",
-    "vitest": "^2.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^6.1.0",
+    "vitest": "^3.0.0",
     "wrangler": "^3.106.0"
   },
   "prettier": {
@@ -34,5 +34,5 @@
     "singleQuote": true,
     "trailingComma": "all"
   },
-  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+  "packageManager": "pnpm@10.4.1+sha256.4b702887986995933d4300836b04d6d02a43bc72b52e4f7e93a4ca608b959197"
 }

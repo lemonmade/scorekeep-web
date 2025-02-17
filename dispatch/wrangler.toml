@@ -20,3 +20,6 @@ bucket_name = "scorekeep-web-assets"
 [[dispatch_namespaces]]
 binding = "SCOREKEEP_BRANCHES"
 namespace = "scorekeep-web-branches"
+
+[version_metadata]
+binding = "CLOUDFLARE_VERSION_METADATA"

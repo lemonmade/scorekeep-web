@@ -12,16 +12,16 @@
     "develop": "vite --config ./vite.config.js",
     "test": "vitest --config ./vite.config.js",
     "deploy": "wrangler deploy --dispatch-namespace scorekeep-web-branches --name scorekeep-web:main",
-    "deploy:tophat": "wrangler deploy --dispatch-namespace scorekeep-web-branches --name \"scorekeep-web:tophat:$(git rev-parse HEAD)\"",
+    "deploy:preview": "wrangler deploy --dispatch-namespace scorekeep-web-branches --name \"scorekeep-web:preview:$(git rev-parse HEAD)\"",
     "start": "node ./build/server/server.js"
   },
   "dependencies": {},
   "devDependencies": {
-    "@quilted/quilt": "^0.8.0",
-    "jsdom": "^24.0.0",
-    "preact": "^10.21.0",
-    "react": "npm:@quilted/react@^18.2.0",
-    "react-dom": "npm:@quilted/react-dom@^18.2.0"
+    "@quilted/quilt": "^0.8.9",
+    "jsdom": "^26.0.0",
+    "preact": "^10.26.0",
+    "react": "npm:@quilted/react@^19.0.0",
+    "react-dom": "npm:@quilted/react-dom@^19.0.0"
   },
   "sideEffects": [
     "*.css",

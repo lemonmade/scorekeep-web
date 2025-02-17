@@ -1,4 +1,4 @@
 {
   "extends": "@quilted/typescript/tsconfig.workspace.json",
-  "references": [{"path": "./app"}]
+  "references": [{"path": "./app"}, {"path": "./scorekeep-web"}]
 }

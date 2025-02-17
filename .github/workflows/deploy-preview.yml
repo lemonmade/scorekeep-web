@@ -1,4 +1,4 @@
-name: Tophat
+name: Deploy Preview
 
 on:
   push:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   deploy-app:
-    name: Deploy app to Cloudflare in tophat mode 🌥
+    name: Deploy app to Cloudflare in preview mode 🌥
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -20,6 +20,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/actions/prepare
       - run: pnpm --filter ./app run build
-      - run: pnpm --filter ./app run deploy:tophat
+      - run: pnpm --filter ./app run deploy:preview
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
