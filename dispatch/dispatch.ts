@@ -11,8 +11,6 @@ export interface Environment {
 }
 
 const PREVIEW_HEADER = 'ScoreKeep-Internal-Preview';
-const VERSION_ID_RESPONSE_HEADER = 'ScoreKeep-Internal-Version-ID';
-const VERSION_TAG_RESPONSE_HEADER = 'ScoreKeep-Internal-Version-Tag';
 
 async function dispatch(request: Request, env: Environment) {
   const url = new URL(request.url);
@@ -29,14 +27,15 @@ async function dispatch(request: Request, env: Environment) {
 
   const response = await worker.fetch(request as any);
 
-  const clone = new ClonedResponse(response as any, {
-    headers: {
-      [VERSION_ID_RESPONSE_HEADER]: env.CLOUDFLARE_VERSION_METADATA.id,
-      [VERSION_TAG_RESPONSE_HEADER]: env.CLOUDFLARE_VERSION_METADATA.tag,
-    },
+  const cloned = new ClonedResponse(response as any, {
+    headers: preview
+      ? {
+          [PREVIEW_HEADER]: preview,
+        }
+      : {},
   });
 
-  return clone;
+  return cloned;
 }
 
 class ClonedResponse extends Response {

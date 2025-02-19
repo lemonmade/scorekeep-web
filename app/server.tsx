@@ -9,6 +9,7 @@ import {
   permissionsPolicyHeader,
   strictTransportSecurityHeader,
 } from '@quilted/quilt/server';
+import type {WorkerVersionMetadata} from '@cloudflare/workers-types';
 
 import Env from 'quilt:module/env';
 import {BrowserAssets} from 'quilt:module/assets';
@@ -17,11 +18,18 @@ import type {AppContext} from '~/shared/context.ts';
 
 import {App} from './App.tsx';
 
-const router = new RequestRouter();
+interface Env {
+  CLOUDFLARE_VERSION_METADATA: WorkerVersionMetadata;
+}
+
+const WORKER_VERSION_ID_RESPONSE_HEADER = 'ScoreKeep-Internal-Worker-Version-ID';
+const WORKER_VERSION_TAG_RESPONSE_HEADER = 'ScoreKeep-Internal-Worker-Version-Tag';
+
+const router = new RequestRouter<{env?: Env}>();
 const assets = new BrowserAssets();
 
 // For all GET requests, render our Preact application.
-router.get(async (request) => {
+router.get(async (request, {env}) => {
   const context = {
     router: new Router(request.url),
   } satisfies AppContext;
@@ -104,9 +112,11 @@ router.get(async (request) => {
     'Strict-Transport-Security': strictTransportSecurityHeader(),
   });
 
-  const tophat = request.headers.get('Scorekeep-Web-Tophat');
-  if (tophat) {
-    headers.set('Scorekeep-Web-Tophat', tophat);
+  const workerVersion = env?.CLOUDFLARE_VERSION_METADATA;
+
+  if (workerVersion) {
+    headers.set(WORKER_VERSION_ID_RESPONSE_HEADER, workerVersion.id);
+    headers.set(WORKER_VERSION_TAG_RESPONSE_HEADER, workerVersion.tag);
   }
 
   const response = await renderAppToHTMLResponse(<App context={context} />, {
