@@ -15,11 +15,10 @@
     "deploy:preview": "wrangler deploy --dispatch-namespace scorekeep-web-versions --name \"scorekeep-web:preview:$(git rev-parse HEAD)\"",
     "start": "node ./build/server/server.js"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@quilted/quilt": "^0.8.9",
+    "@quilted/quilt": "^0.8.10",
     "jsdom": "^26.0.0",
-    "preact": "^10.26.0",
+    "preact": "^10.26.2",
     "react": "npm:@quilted/react@^19.0.0",
     "react-dom": "npm:@quilted/react-dom@^19.0.0"
   },
