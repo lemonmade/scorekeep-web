@@ -9,6 +9,5 @@ main = "build/server/server.js"
 [build]
 command = ""
 
-# [site]
-# bucket = "./build/assets"
-# entry-point = "."
+[version_metadata]
+binding = "CLOUDFLARE_VERSION_METADATA"
