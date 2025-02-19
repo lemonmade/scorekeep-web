@@ -6,7 +6,7 @@ import type {
 
 export interface Environment {
   APP_ASSETS: R2Bucket;
-  SCOREKEEP_BRANCHES: DispatchNamespace;
+  SCOREKEEP_VERSIONS: DispatchNamespace;
   CLOUDFLARE_VERSION_METADATA: WorkerVersionMetadata;
 }
 
@@ -24,8 +24,8 @@ async function dispatch(request: Request, env: Environment) {
   const preview = request.headers.get(PREVIEW_HEADER);
 
   const worker = preview
-    ? env.SCOREKEEP_BRANCHES.get(`scorekeep-web:preview:${preview}`)
-    : env.SCOREKEEP_BRANCHES.get(`scorekeep-web:main`);
+    ? env.SCOREKEEP_VERSIONS.get(`scorekeep-web:preview:${preview}`)
+    : env.SCOREKEEP_VERSIONS.get(`scorekeep-web:main`);
 
   const response = await worker.fetch(request as any);
 

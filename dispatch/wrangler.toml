@@ -22,8 +22,8 @@ binding = "APP_ASSETS"
 bucket_name = "scorekeep-web-assets"
 
 [[dispatch_namespaces]]
-binding = "SCOREKEEP_BRANCHES"
-namespace = "scorekeep-web-branches"
+binding = "SCOREKEEP_VERSIONS"
+namespace = "scorekeep-web-versions"
 
 [version_metadata]
 binding = "CLOUDFLARE_VERSION_METADATA"
