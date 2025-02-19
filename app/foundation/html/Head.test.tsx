@@ -11,7 +11,7 @@ describe('<Head />', () => {
     const head = await renderApp(<Head />);
 
     expect(head).toContainPreactComponent(Title, {
-      children: 'App',
+      children: 'ScoreKeep',
     });
   });
 
@@ -19,7 +19,7 @@ describe('<Head />', () => {
     const head = await renderApp(<Head />);
 
     expect(head).toContainPreactComponent(Favicon, {
-      emoji: '🧶',
+      emoji: '🏆',
     });
   });
 
