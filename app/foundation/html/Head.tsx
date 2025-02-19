@@ -10,14 +10,14 @@ export function Head() {
   return (
     <>
       {/* Sets the default `<title>` for this application. */}
-      <Title>App</Title>
+      <Title>ScoreKeep</Title>
 
       {/*
        * Sets the default favicon used by the application. You can
        * change this to a different emoji, make it `blank`, or pass
        * a URL with the `source` prop.
        */}
-      <Favicon emoji="🧶" />
+      <Favicon emoji="🏆" />
 
       {/* Adds a responsive-friendly `viewport` `<meta>` tag. */}
       <Viewport cover />
