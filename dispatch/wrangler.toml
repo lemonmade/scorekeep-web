@@ -10,6 +10,10 @@ workers_dev = false
 pattern = "scorekeep.watch"
 custom_domain = true
 
+[[routes]]
+pattern = "scorekeep.lemon.tools"
+custom_domain = true
+
 [build]
 command = ""
 
