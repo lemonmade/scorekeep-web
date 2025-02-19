@@ -22,8 +22,10 @@ interface Env {
   CLOUDFLARE_VERSION_METADATA: WorkerVersionMetadata;
 }
 
-const WORKER_VERSION_ID_RESPONSE_HEADER = 'ScoreKeep-Internal-Worker-Version-ID';
-const WORKER_VERSION_TAG_RESPONSE_HEADER = 'ScoreKeep-Internal-Worker-Version-Tag';
+const WORKER_VERSION_ID_RESPONSE_HEADER =
+  'ScoreKeep-Internal-Worker-Version-ID';
+const WORKER_VERSION_TAG_RESPONSE_HEADER =
+  'ScoreKeep-Internal-Worker-Version-Tag';
 
 const router = new RequestRouter<{env?: Env}>();
 const assets = new BrowserAssets();
