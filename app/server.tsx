@@ -20,6 +20,7 @@ import {App} from './App.tsx';
 
 interface Env {
   CLOUDFLARE_VERSION_METADATA: WorkerVersionMetadata;
+  CLOUDFLARE_API_TOKEN: string;
 }
 
 const WORKER_VERSION_ID_RESPONSE_HEADER =
