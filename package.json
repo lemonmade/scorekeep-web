@@ -20,6 +20,8 @@
     "@quilted/typescript": "^0.4.2",
     "@quilted/vite": "^0.2.1",
     "aws-sdk": "^2.935.0",
+    "cloudflare": "^4.1.0",
+    "nano-spawn": "^0.2.0",
     "prettier": "^3.3.0",
     "rollup": "^4.34.0",
     "tsx": "^4.19.0",
