@@ -33,6 +33,9 @@ const assets = new BrowserAssets();
 
 // For all GET requests, render our Preact application.
 router.get(async (request, {env}) => {
+  console.log(env);
+  console.log([...request.headers.entries()]);
+
   const context = {
     router: new Router(request.url),
   } satisfies AppContext;
