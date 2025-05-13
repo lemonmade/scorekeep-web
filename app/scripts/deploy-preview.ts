@@ -6,7 +6,7 @@ const cloudflare = new Cloudflare();
 const {output: gitHash} = await spawn('git', ['rev-parse', 'HEAD']);
 
 const dispatchNamespace = 'scorekeep-web-versions';
-const dispatchName = `scorekeep-web:preview:${gitHash}`;
+const dispatchName = `scorekeep-web.preview.${gitHash}`;
 
 const deployCommand = spawn('pnpm', [
   `exec`,
