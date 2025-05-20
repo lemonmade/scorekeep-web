@@ -1,17 +1,14 @@
 name: Deploy Preview
 
 on:
-  push:
-    branches:
-      - '**'
-      - '!main'
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  deploy-app:
+  deploy-app-preview:
     name: Deploy app to Cloudflare in preview mode 🌥
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -28,3 +25,13 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            Deployed PR preview to Cloudflare. Set the following header to see your work in action:
+
+            ```
+            ScoreKeep-Internal-Preview: ${{ github.event.pull_request.head.sha}}
+            ```
+          comment-tag: deploy-preview-instructions-comment
+          github-token: ${{ secrets.COMMENT_ON_PR_GITHUB_TOKEN }}
