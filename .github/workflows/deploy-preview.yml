@@ -34,3 +34,4 @@ jobs:
             ScoreKeep-Internal-Preview: ${{ github.event.pull_request.head.sha}}
             ```
           comment-tag: deploy-preview-instructions-comment
+          github-token: ${{ secrets.COMMENT_ON_PR_GITHUB_TOKEN }}
