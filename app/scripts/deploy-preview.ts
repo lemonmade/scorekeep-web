@@ -39,7 +39,8 @@ async function deployWithName(dispatchName: string) {
     dispatchName,
   ]);
 
-  console.log(`[${dispatchName}] wrangler deploy:`);
+  console.log();
+  console.log(`[${dispatchName}] Deploying preview...`);
   for await (const line of deployCommand) {
     console.log(line);
   }
@@ -49,7 +50,7 @@ async function deployWithName(dispatchName: string) {
   // all the necessary secrets are available.
 
   console.log();
-  console.log(`[${dispatchName}] Adding secrets...`);
+  console.log(`Adding secrets...`);
   const secrets = new Map([
     ['CLOUDFLARE_API_TOKEN', process.env.CLOUDFLARE_API_TOKEN ?? ''],
   ]);
@@ -68,7 +69,7 @@ async function deployWithName(dispatchName: string) {
       );
 
     console.log();
-    console.log(`[${dispatchName}] Secret updated: ${name}`);
+    console.log(`Secret updated`);
     console.log(result);
   }
 }
