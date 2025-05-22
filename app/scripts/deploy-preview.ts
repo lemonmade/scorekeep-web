@@ -1,12 +1,29 @@
+import {parseArgs} from 'node:util';
 import {Cloudflare} from 'cloudflare';
 import spawn from 'nano-spawn';
 
 const cloudflare = new Cloudflare();
 
-const {output: gitHash} = await spawn('git', ['rev-parse', 'HEAD']);
+const commit = await (async () => {
+  const {output: commitSHA} = await spawn('git', ['rev-parse', 'HEAD']);
+
+  const {values} = parseArgs({
+    options: {
+      commit: {type: 'string'},
+    },
+  });
+
+  console.log(
+    `from git rev-parse HEAD: ${commitSHA}, from option: ${values.commit}, from env: ${process.env.GITHUB_SHA}`,
+  );
+
+  if (values.commit) return values.commit;
+
+  return commitSHA;
+})();
 
 const dispatchNamespace = 'scorekeep-web-versions';
-const dispatchName = `scorekeep-web.preview.${gitHash}`;
+const dispatchName = `scorekeep-web.preview.${commit}`;
 
 const deployCommand = spawn('pnpm', [
   `exec`,
