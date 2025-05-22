@@ -21,7 +21,7 @@ jobs:
         with:
           r2_access_key_id: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
           r2_access_key_secret: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_SECRET }}
-      - run: pnpm --filter ./app run deploy:preview --commit ${{ github.event.pull_request.head.sha }}
+      - run: pnpm --filter ./app run deploy:preview --commit ${{ github.event.pull_request.head.sha }} --branch ${{ github.event.pull_request.head.ref }}
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -31,7 +31,7 @@ jobs:
             Deployed PR preview to Cloudflare. Set the following header to see your work in action:
 
             ```
-            ScoreKeep-Internal-Preview: ${{ github.event.pull_request.head.sha}}
+            ScoreKeep-Internal-Preview: ${{ github.event.pull_request.head.ref }}
             ```
           comment-tag: deploy-preview-instructions-comment
           github-token: ${{ secrets.COMMENT_ON_PR_GITHUB_TOKEN }}
