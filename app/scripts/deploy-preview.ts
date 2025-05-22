@@ -39,8 +39,13 @@ async function deployWithName(dispatchName: string) {
     dispatchName,
   ]);
 
-  console.log();
-  console.log(`[${dispatchName}] Deploying preview...`);
+  if (process.env.GITHUB_ACTIONS) {
+    console.log(`::group::Deploying preview ${dispatchName}...`);
+  } else {
+    console.log();
+    console.log(`Deploying preview ${dispatchName}...`);
+  }
+
   for await (const line of deployCommand) {
     console.log(line);
   }
@@ -50,7 +55,7 @@ async function deployWithName(dispatchName: string) {
   // all the necessary secrets are available.
 
   console.log();
-  console.log(`Adding secrets...`);
+  console.log(`Updating secrets...`);
   const secrets = new Map([
     ['CLOUDFLARE_API_TOKEN', process.env.CLOUDFLARE_API_TOKEN ?? ''],
   ]);
@@ -69,7 +74,10 @@ async function deployWithName(dispatchName: string) {
       );
 
     console.log();
-    console.log(`Secret updated`);
     console.log(result);
+  }
+
+  if (process.env.GITHUB_ACTIONS) {
+    console.log(`::endgroup::`);
   }
 }
