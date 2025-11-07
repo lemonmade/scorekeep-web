@@ -11,7 +11,7 @@
     "build": "rollup --config ./rollup.config.js",
     "develop": "vite --config ./vite.config.js",
     "test": "vitest --config ./vite.config.js",
-    "deploy": "wrangler deploy --dispatch-namespace scorekeep-web-versions --name scorekeep-web:main",
+    "deploy": "wrangler deploy --dispatch-namespace scorekeep-web-versions --name scorekeep-web.main",
     "deploy:preview": "tsx ./scripts/deploy-preview.ts",
     "start": "node ./build/server/server.js"
   },
