@@ -8,6 +8,10 @@ import {Head} from './foundation/html.ts';
 import {Frame} from './foundation/frame.ts';
 
 import {Home} from './features/home.ts';
+import {
+  Match as SharedMatch,
+  MatchSummary as SharedMatchSummary,
+} from './features/share.ts';
 
 import {
   AppContextReact,
@@ -30,6 +34,26 @@ const routes = [
           await Promise.all([Home.load()]);
         },
         render: <Home />,
+      }),
+      routeWithAppContext('/share', {
+        children: [
+          routeWithAppContext(':id', {
+            children: [
+              routeWithAppContext('/', {
+                async load() {
+                  await Promise.all([SharedMatch.load()]);
+                },
+                render: <SharedMatch />,
+              }),
+              routeWithAppContext('/summary', {
+                async load() {
+                  await Promise.all([SharedMatchSummary.load()]);
+                },
+                render: <SharedMatchSummary />,
+              }),
+            ],
+          }),
+        ],
       }),
       routeWithAppContext('*', {render: <NotFound />}),
     ],

@@ -1,0 +1,14 @@
+.Row {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-columns: auto;
+  grid-auto-flow: column;
+
+  & + .Row {
+    border-top: 1px solid #000;
+  }
+}
+
+.Cell {
+  padding: 0.5rem;
+}
