@@ -71,7 +71,7 @@ async function share(request: Request, env: Environment) {
 
 async function ogImage(request: Request, env: Environment) {
   const url = new URL(request.url);
-  const id = url.pathname.split('/').pop()!;
+  const id = url.pathname.split('/').at(-2)!;
 
   // TODO: allow caching
   let ogImage = await env.OG_IMAGE_DATA.get(`${id}-og-image`, {type: 'arrayBuffer'});
