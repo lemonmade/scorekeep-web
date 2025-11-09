@@ -27,11 +27,24 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
+  deploy-share-match-worker:
+    name: Deploy share match worker to Cloudflare 🌥
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/prepare
+      - run: pnpm --filter ./workers/share-match run build
+      - run: pnpm --filter ./workers/share-match run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
   deploy-dispatch-worker:
     name: Deploy dispatch worker to Cloudflare 🌥
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [deploy-app]
+    needs: [deploy-app, deploy-share-match-worker]
 
     steps:
       - uses: actions/checkout@v4

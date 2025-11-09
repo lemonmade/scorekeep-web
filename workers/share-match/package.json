@@ -1,12 +1,18 @@
 {
-  "name": "scorekeep-web-dispatch",
+  "name": "scorekeep-web-share-match",
   "type": "module",
   "version": "0.0.0",
   "private": true,
+  "exports": {
+    "types": "./build/typescript/share-match.d.ts"
+  },
   "scripts": {
     "build": "rollup --config ./rollup.config.js",
     "deploy": "wrangler deploy",
     "start": "node ./build/server/server.js"
+  },
+  "dependencies": {
+    "@cloudflare/playwright": "^1.0.0"
   },
   "browserslist": [
     "last 1 chrome version"

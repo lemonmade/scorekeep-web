@@ -25,5 +25,10 @@ bucket_name = "scorekeep-web-assets"
 binding = "SCOREKEEP_VERSIONS"
 namespace = "scorekeep-web-versions"
 
+[[services]]
+binding = "SHARE_MATCH"
+service = "scorekeep-web-share-match"
+entrypoint = "ShareMatchService"
+
 [version_metadata]
 binding = "CLOUDFLARE_VERSION_METADATA"

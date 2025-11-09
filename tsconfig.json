@@ -1,5 +1,5 @@
 {
   "extends": "@quilted/typescript/tsconfig.workspace.json",
   "include": ["vitest.workspace.ts"],
-  "references": [{"path": "./app"}, {"path": "./dispatch"}]
+  "references": [{"path": "./app"}, {"path": "./dispatch"}, {"path": "./workers/share-match"}]
 }

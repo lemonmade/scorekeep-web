@@ -2,10 +2,12 @@ import type {
   R2Bucket,
   DispatchNamespace,
   WorkerVersionMetadata,
-} from '@cloudflare/workers-types';
+} from '@cloudflare/workers-types/experimental';
+import type {ShareMatchService} from '../workers/share-match/share-match';
 
 export interface Environment {
   APP_ASSETS: R2Bucket;
+  SHARE_MATCH: Pick<ShareMatchService, 'share' | 'ogImage'>;
   SCOREKEEP_VERSIONS: DispatchNamespace;
   CLOUDFLARE_VERSION_METADATA: WorkerVersionMetadata;
 }
@@ -14,11 +16,29 @@ const PREVIEW_HEADER = 'ScoreKeep-Internal-Preview';
 
 async function dispatch(request: Request, env: Environment) {
   const url = new URL(request.url);
+
+  // Serve app assets
   if (url.pathname.startsWith('/assets/app/')) {
     const asset = await fetchAssetFromBucket(request, env.APP_ASSETS);
     return asset;
   }
 
+  // Upload a shared match
+  if (url.pathname === '/.internal/share-match') {
+    const response = await env.SHARE_MATCH.share(request);
+    return response;
+  }
+
+  // Serve OG Image for shared matches
+  const ogImageUrlMatch = url.pathname.match(
+    /^[/]\.internal[/]share-match[/](?<id>[a-zA-Z0-9-_]+)[/]og-image[/]?$/,
+  );
+  const ogImageMatchId = ogImageUrlMatch?.groups?.id;
+  if (ogImageMatchId) {
+    return env.SHARE_MATCH.ogImage(request);
+  }
+
+  // Serve app worker
   const preview = request.headers.get(PREVIEW_HEADER);
 
   const worker = preview

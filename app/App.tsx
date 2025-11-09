@@ -26,6 +26,12 @@ export interface AppProps {
 // Define the routes for your application. If you have a lot of routes, you
 // might want to split this into a separate file.
 const routes = [
+  routeWithAppContext(/[/]share[/]\w+[/]summary/, {
+    async load() {
+      await Promise.all([SharedMatchSummary.load()]);
+    },
+    render: <SharedMatchSummary />,
+  }),
   routeWithAppContext('*', {
     render: (children) => <Frame>{children}</Frame>,
     children: [
@@ -44,12 +50,6 @@ const routes = [
                   await Promise.all([SharedMatch.load()]);
                 },
                 render: <SharedMatch />,
-              }),
-              routeWithAppContext('/summary', {
-                async load() {
-                  await Promise.all([SharedMatchSummary.load()]);
-                },
-                render: <SharedMatchSummary />,
               }),
             ],
           }),

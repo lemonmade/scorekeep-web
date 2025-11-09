@@ -2,4 +2,4 @@ packages:
   - ./app
   - ./dispatch
   - ./packages/*
-  - ./scorekeep-web
+  - ./workers/*

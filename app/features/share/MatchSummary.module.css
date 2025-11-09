@@ -1,0 +1,57 @@
+.MatchSummary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  border: 1px solid #000;
+  height: 100dvh;
+  width: 100dvw;
+  padding: 2rem;
+  background: linear-gradient(to bottom, #fff, #f5f5f5);
+}
+
+.SummaryScoreContainer {
+  padding: 1rem;
+  font-size: 10rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.SummaryScore {
+  font-weight: bold;
+  font-size: 20rem;
+  line-height: 0.8;
+  margin-top: -0.1em;
+}
+
+.SummaryScore-us {
+  color: rgb(42, 112, 210);
+}
+
+.SummaryScore-them {
+  color: rgba(228, 80, 80, 0.863);
+}
+
+.MatchSummaryTableContainer {
+  grid-column: 1 / -1;
+  max-inline-size: 60rem;
+  /* display: flex;
+  align-items: start; */
+}
+
+.MatchOverview {
+  font-size: 3rem;
+  align-self: center;
+}
+
+.Text {
+  margin: 0;
+}
+
+.Text-subdued {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.Text-emphasized {
+  font-weight: bold;
+}

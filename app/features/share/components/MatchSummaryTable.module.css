@@ -1,14 +1,76 @@
+.MatchSummaryTable {
+  --MatchSummaryTable-border-radius: 2rem;
+
+  position: relative;
+  background: #fff;
+  border-radius: var(--MatchSummaryTable-border-radius);
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 6px 16px rgba(0, 0, 0, 0.08),
+    0 12px 12px rgba(0, 0, 0, 0.06);
+  font-size: 4rem;
+}
+
 .Row {
   display: grid;
   grid-template-columns: 1fr;
   grid-auto-columns: auto;
   grid-auto-flow: column;
 
+  &:first-child {
+    border-radius: var(--MatchSummaryTable-border-radius)
+      var(--MatchSummaryTable-border-radius) 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 var(--MatchSummaryTable-border-radius)
+      var(--MatchSummaryTable-border-radius);
+  }
+
   & + .Row {
-    border-top: 1px solid #000;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
   }
 }
 
 .Cell {
-  padding: 0.5rem;
+  padding: 1rem;
+
+  &:first-child {
+    padding-inline-start: 2rem;
+  }
+
+  &:last-child {
+    padding-inline-end: 2rem;
+  }
+}
+
+.Team {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  min-inline-size: 20rem;
+}
+
+.Team-winner {
+  font-weight: bold;
+}
+
+.TeamIndicator {
+  width: 1rem;
+  height: 1em;
+  border-radius: 0.5rem;
+  background: #000;
+
+  .Team-us & {
+    background: rgb(42, 112, 210);
+  }
+
+  .Team-them & {
+    background: rgba(228, 80, 80, 0.863);
+  }
+}
+
+.Score-winner {
+  font-weight: bold;
 }

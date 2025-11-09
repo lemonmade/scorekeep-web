@@ -1,0 +1,25 @@
+name = "scorekeep-web-share-match"
+
+compatibility_date = "2025-11-07"
+compatibility_flags = ["nodejs_compat"]
+
+main = "build/output/share-match.js"
+
+workers_dev = false
+
+[build]
+command = ""
+
+[version_metadata]
+binding = "CLOUDFLARE_VERSION_METADATA"
+
+[[kv_namespaces]]
+binding = "DATA"
+id = "ed6e069a475c417fb814de21b35dac19"
+
+[[kv_namespaces]]
+binding = "OG_IMAGE_DATA"
+id = "9d3915d8059641c9836955994c802136"
+
+[browser]
+binding = "RENDER_OG_IMAGE_BROWSER"
