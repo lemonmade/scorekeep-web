@@ -3,5 +3,5 @@
   "compilerOptions": {},
   "include": ["**/*"],
   "exclude": ["build"],
-  "references": [{"path": "../../core"}]
+  "references": []
 }

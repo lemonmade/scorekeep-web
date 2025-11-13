@@ -35,7 +35,8 @@ async function dispatch(request: Request, env: Environment) {
   );
   const ogImageMatchId = ogImageUrlMatch?.groups?.id;
   if (ogImageMatchId) {
-    return env.SHARE_MATCH.ogImage(request);
+    const response = await env.SHARE_MATCH.ogImage(request);
+    return response;
   }
 
   // Serve app worker

@@ -1,4 +1,3 @@
-
 import {launch, type Browser} from '@cloudflare/playwright';
 import type {
   WorkerVersionMetadata,
@@ -6,6 +5,8 @@ import type {
   KVNamespace,
 } from '@cloudflare/workers-types/experimental';
 import {WorkerEntrypoint} from 'cloudflare:workers';
+import {z} from 'zod';
+import {Match, MatchSchema} from '@scorekeep/core/models';
 
 export interface Environment {
   DATA: KVNamespace;
@@ -13,6 +14,10 @@ export interface Environment {
   RENDER_OG_IMAGE_BROWSER: Fetcher;
   CLOUDFLARE_VERSION_METADATA: WorkerVersionMetadata;
 }
+
+export const ShareMatchRequestSchema = z.object({
+  match: MatchSchema,
+});
 
 export class ShareMatchService extends WorkerEntrypoint<Environment> {
   async share(request: Request) {
@@ -39,17 +44,33 @@ async function share(request: Request, env: Environment) {
     return new Response('Unsupported media type', {status: 415});
   }
 
-  let body: any;
+  let requestData: z.infer<typeof ShareMatchRequestSchema>;
 
   try {
-    body = await request.json();
-
-    if (typeof body !== 'object' || body === null) {
-      throw new Error('Invalid JSON');
-    }
+    const body = await request.json();
+    requestData = ShareMatchRequestSchema.parse(body);
   } catch (error) {
     return new Response('Invalid JSON', {status: 400});
   }
+
+  const match = new Match(requestData.match);
+  console.log(`Sharing match:`);
+  console.log(match.summaryString);
+  console.log(
+    `started at ${new Intl.DateTimeFormat('en-US', {
+      dateStyle: 'long',
+      timeStyle: 'short',
+    }).format(match.startedAt)}`,
+  );
+  if (match.endedAt) {
+    console.log(
+      `ended at ${new Intl.DateTimeFormat('en-US', {
+        dateStyle: 'long',
+        timeStyle: 'short',
+      }).format(match.endedAt)}`,
+    );
+  }
+  console.log(requestData.match);
 
   const targetUrl = new URL('/share/example', url);
 
@@ -58,6 +79,7 @@ async function share(request: Request, env: Environment) {
     'example',
     JSON.stringify({
       url: targetUrl.href,
+      match: match.data,
     }),
   );
 
@@ -74,7 +96,9 @@ async function ogImage(request: Request, env: Environment) {
   const id = url.pathname.split('/').at(-2)!;
 
   // TODO: allow caching
-  let ogImage = await env.OG_IMAGE_DATA.get(`${id}-og-image`, {type: 'arrayBuffer'});
+  let ogImage = await env.OG_IMAGE_DATA.get(`${id}-og-image`, {
+    type: 'arrayBuffer',
+  });
 
   if (!ogImage) {
     // TODO: better 404

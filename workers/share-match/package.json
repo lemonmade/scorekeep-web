@@ -12,7 +12,9 @@
     "start": "node ./build/server/server.js"
   },
   "dependencies": {
-    "@cloudflare/playwright": "^1.0.0"
+    "@cloudflare/playwright": "^1.0.0",
+    "@scorekeep/core": "workspace:*",
+    "zod": "^4.1.12"
   },
   "browserslist": [
     "last 1 chrome version"
