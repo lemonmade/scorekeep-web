@@ -6,5 +6,27 @@ main = "./build/server/server.js"
 [assets]
 directory = "./build/public"
 
+[[routes]]
+pattern = "scorekeep.watch"
+custom_domain = true
+
+[[routes]]
+pattern = "scorekeep.lemon.tools"
+custom_domain = true
+
+[[r2_buckets]]
+binding = "APP_ASSETS"
+bucket_name = "scorekeep-web-assets"
+
+[[dispatch_namespaces]]
+binding = "SCOREKEEP_VERSIONS"
+namespace = "scorekeep-web-versions"
+
+[[services]]
+binding = "SHARE_MATCH"
+service = "scorekeep-web-share-match"
+entrypoint = "ShareMatchService"
+
 [version_metadata]
 binding = "CLOUDFLARE_VERSION_METADATA"
+

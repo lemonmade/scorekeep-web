@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "@scorekeep/app",
   "type": "module",
   "version": "0.0.0",
   "private": true,
@@ -11,14 +11,15 @@
     "build": "rollup --config ./rollup.config.js",
     "develop": "vite --config ./vite.config.js",
     "test": "vitest --config ./vite.config.js",
-    "deploy": "wrangler deploy --dispatch-namespace scorekeep-web-versions --name scorekeep-web.main",
+    "deploy": "wrangler deploy",
     "deploy:preview": "tsx ./scripts/deploy-preview.ts",
     "start": "node ./build/server/server.js"
   },
   "devDependencies": {
     "@quilted/quilt": "^0.9.0",
     "jsdom": "^26.0.0",
-    "preact": "^10.26.2"
+    "preact": "^10.26.2",
+    "@scorekeep/worker-share-match": "workspace:*"
   },
   "sideEffects": [
     "*.css",

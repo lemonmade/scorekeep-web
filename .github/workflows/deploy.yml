@@ -9,24 +9,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  deploy-app:
-    name: Deploy app to Cloudflare 🌥
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/workflows/actions/prepare
-      - run: pnpm --filter ./app run build
-      - run: ls -R
-      # - uses: ./.github/workflows/actions/sync-assets-to-r2
-      #   with:
-      #     r2_access_key_id: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
-      #     r2_access_key_secret: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_SECRET }}
-      - run: pnpm --filter ./app run deploy
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
   deploy-share-match-worker:
     name: Deploy share match worker to Cloudflare 🌥
     runs-on: ubuntu-latest
@@ -40,16 +22,21 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-  deploy-dispatch-worker:
-    name: Deploy dispatch worker to Cloudflare 🌥
+  deploy-app:
+    name: Deploy app to Cloudflare 🌥
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [deploy-app, deploy-share-match-worker]
+    needs: [deploy-share-match-worker]
 
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/actions/prepare
-      - run: pnpm --filter ./dispatch run build
-      - run: pnpm --filter ./dispatch run deploy
+      - run: pnpm --filter ./app run build
+      - run: ls -R
+      # - uses: ./.github/workflows/actions/sync-assets-to-r2
+      #   with:
+      #     r2_access_key_id: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+      #     r2_access_key_secret: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_SECRET }}
+      - run: pnpm --filter ./app run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

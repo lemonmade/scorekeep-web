@@ -1,9 +1,0 @@
-{
-  "extends": "@quilted/typescript/tsconfig.project.json",
-  "compilerOptions": {},
-  "include": ["**/*"],
-  "exclude": ["build"],
-  "references": [
-    {"path": "../workers/share-match"}
-  ]
-}
