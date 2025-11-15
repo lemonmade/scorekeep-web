@@ -1,8 +1,7 @@
 import {quiltApp} from '@quilted/rollup/app';
-import {cloudflareWorkers} from '@quilted/cloudflare/craft';
+import {cloudflareWorkersApp} from '@quilted/cloudflare/craft';
 
 export default quiltApp({
-  browser: {entry: './browser.tsx'},
-  server: {entry: './server.tsx', runtime: cloudflareWorkers()},
   assets: {baseURL: '/assets/app/'},
+  runtime: cloudflareWorkersApp(),
 });

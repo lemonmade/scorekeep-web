@@ -1,14 +1,11 @@
 name = "scorekeep-web-share-match"
 
-compatibility_date = "2025-11-07"
+compatibility_date = "2025-11-13"
 compatibility_flags = ["nodejs_compat"]
 
-main = "build/output/share-match.js"
+main = "./build/output/share-match.js"
 
 workers_dev = false
-
-[build]
-command = ""
 
 [version_metadata]
 binding = "CLOUDFLARE_VERSION_METADATA"

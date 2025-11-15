@@ -1,8 +1,8 @@
 name = "scorekeep-web-dispatch"
 
-compatibility_date = "2025-01-29"
+compatibility_date = "2025-11-13"
 
-main = "build/output/dispatch.js"
+main = "./build/output/dispatch.js"
 
 workers_dev = false
 
@@ -13,9 +13,6 @@ custom_domain = true
 [[routes]]
 pattern = "scorekeep.lemon.tools"
 custom_domain = true
-
-[build]
-command = ""
 
 [[r2_buckets]]
 binding = "APP_ASSETS"

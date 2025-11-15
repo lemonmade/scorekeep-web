@@ -1,3 +1,5 @@
+import {Hono} from 'hono';
+
 import type {
   R2Bucket,
   DispatchNamespace,
@@ -14,37 +16,34 @@ export interface Environment {
 
 const PREVIEW_HEADER = 'ScoreKeep-Internal-Preview';
 
-async function dispatch(request: Request, env: Environment) {
-  const url = new URL(request.url);
+const app = new Hono<{Bindings: Environment}>();
 
-  // Serve app assets
-  if (url.pathname.startsWith('/assets/app/')) {
-    const asset = await fetchAssetFromBucket(request, env.APP_ASSETS);
-    return asset;
-  }
+app.get('/assets/app/*', async (c) => {
+  console.log(`Serving app asset...`);
+  const asset = await fetchAssetFromBucket(c.req.raw, c.env.APP_ASSETS);
+  return asset;
+});
 
-  // Upload a shared match
-  if (url.pathname === '/.internal/share-match') {
-    const response = await env.SHARE_MATCH.share(request);
-    return response;
-  }
+app.post('/.internal/share-match', async (c) => {
+  console.log(`Sharing match...`);
+  const response = await c.env.SHARE_MATCH.share(c.req.raw);
+  return response;
+});
 
-  // Serve OG Image for shared matches
-  const ogImageUrlMatch = url.pathname.match(
-    /^[/]\.internal[/]share-match[/](?<id>[a-zA-Z0-9-_]+)[/]og-image[/]?$/,
-  );
-  const ogImageMatchId = ogImageUrlMatch?.groups?.id;
-  if (ogImageMatchId) {
-    const response = await env.SHARE_MATCH.ogImage(request);
-    return response;
-  }
+app.get('/.internal/share-match/:id/og-image', async (c) => {
+  console.log(`Serving OG image (id: ${c.req.param('id')})...`);
+  const response = await c.env.SHARE_MATCH.ogImage(c.req.raw);
+  return response;
+});
 
-  // Serve app worker
+app.use('*', async (c) => {
+  const request = c.req.raw;
+
   const preview = request.headers.get(PREVIEW_HEADER);
 
   const worker = preview
-    ? env.SCOREKEEP_VERSIONS.get(`scorekeep-web.preview.${preview}`)
-    : env.SCOREKEEP_VERSIONS.get(`scorekeep-web.main`);
+    ? c.env.SCOREKEEP_VERSIONS.get(`scorekeep-web.preview.${preview}`)
+    : c.env.SCOREKEEP_VERSIONS.get(`scorekeep-web.main`);
 
   const response = await worker.fetch(request as any);
 
@@ -57,7 +56,9 @@ async function dispatch(request: Request, env: Environment) {
   });
 
   return cloned;
-}
+});
+
+export default app;
 
 class ClonedResponse extends Response {
   constructor(response: Response, init?: ResponseInit) {
@@ -112,5 +113,3 @@ async function fetchAssetFromBucket(request: Request, bucket: R2Bucket) {
     headers,
   });
 }
-
-export default {fetch: dispatch};

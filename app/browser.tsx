@@ -1,4 +1,3 @@
-import '@quilted/quilt/globals';
 import './browser.css';
 import {hydrate} from '@quilted/quilt/browser';
 import {Router} from '@quilted/quilt/navigation';

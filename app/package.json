@@ -16,11 +16,9 @@
     "start": "node ./build/server/server.js"
   },
   "devDependencies": {
-    "@quilted/quilt": "^0.8.10",
+    "@quilted/quilt": "^0.9.0",
     "jsdom": "^26.0.0",
-    "preact": "^10.26.2",
-    "react": "npm:@quilted/react@^19.0.0",
-    "react-dom": "npm:@quilted/react-dom@^19.0.0"
+    "preact": "^10.26.2"
   },
   "sideEffects": [
     "*.css",

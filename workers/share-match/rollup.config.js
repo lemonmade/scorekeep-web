@@ -1,10 +1,13 @@
 import {quiltServer} from '@quilted/rollup/server';
+import {cloudflareWorkers} from '@quilted/cloudflare/craft';
 
 export default quiltServer({
-  entry: './share-match.ts',
   format: 'custom',
+  entry: './share-match.ts',
+  runtime: cloudflareWorkers(),
   output: {
     bundle: {
+      dependencies: true,
       exclude: ['cloudflare:workers'],
     },
   },

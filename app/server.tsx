@@ -1,17 +1,15 @@
-import '@quilted/quilt/globals';
+import {Hono} from 'hono';
 
-import {RequestRouter} from '@quilted/quilt/request-router';
 import {Router} from '@quilted/quilt/navigation';
 import {
   renderAppToHTMLResponse,
-  cacheControlHeader,
-  contentSecurityPolicyHeader,
-  permissionsPolicyHeader,
-  strictTransportSecurityHeader,
+  CacheControlHeader,
+  ContentSecurityPolicyHeader,
+  PermissionsPolicyHeader,
+  StrictTransportSecurityHeader,
 } from '@quilted/quilt/server';
 import type {WorkerVersionMetadata} from '@cloudflare/workers-types';
 
-import Env from 'quilt:module/env';
 import {BrowserAssets} from 'quilt:module/assets';
 
 import type {AppContext} from '~/shared/context.ts';
@@ -28,11 +26,13 @@ const WORKER_VERSION_ID_RESPONSE_HEADER =
 const WORKER_VERSION_TAG_RESPONSE_HEADER =
   'ScoreKeep-Internal-Worker-Version-Tag';
 
-const router = new RequestRouter<{env?: Env}>();
+const app = new Hono<{Bindings: Env}>();
 const assets = new BrowserAssets();
 
 // For all GET requests, render our Preact application.
-router.get(async (request, {env}) => {
+app.get('*', async (c) => {
+  const request = c.req.raw;
+
   const context = {
     router: new Router(request.url),
   } satisfies AppContext;
@@ -55,7 +55,7 @@ router.get(async (request, {env}) => {
     // app or deployment, make sure to update this component accordingly!
     //
     // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
-    'Cache-Control': cacheControlHeader({
+    'Cache-Control': CacheControlHeader.stringify({
       cache: false,
     }),
 
@@ -66,12 +66,12 @@ router.get(async (request, {env}) => {
     // to the allowlist for more specific directives.
     //
     // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-    'Content-Security-Policy': contentSecurityPolicyHeader({
+    'Content-Security-Policy': ContentSecurityPolicyHeader.stringify({
       // By default, only allow sources from the page's origin.
       defaultSources: ["'self'"],
       // In development, allow connections to local websockets for hot reloading.
       connectSources:
-        Env.MODE === 'development'
+        process.env.NODE_ENV === 'development'
           ? ["'self'", `${isHttps ? 'ws' : 'wss'}://localhost:*`]
           : undefined,
       // Includes `'unsafe-inline'` because CSS is often necessary in development,
@@ -92,7 +92,7 @@ router.get(async (request, {env}) => {
     // to some native browser features.
     //
     // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
-    'Permissions-Policy': permissionsPolicyHeader({
+    'Permissions-Policy': PermissionsPolicyHeader.stringify({
       // Disables Google's Federated Learning of Cohorts ("FLoC") tracking initiative.
       // @see https://www.eff.org/deeplinks/2021/03/googles-floc-terrible-idea
       interestCohort: false,
@@ -112,10 +112,10 @@ router.get(async (request, {env}) => {
     // Instructs browsers to only load this page over HTTPS.
     //
     // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-    'Strict-Transport-Security': strictTransportSecurityHeader(),
+    'Strict-Transport-Security': StrictTransportSecurityHeader.stringify(),
   });
 
-  const workerVersion = env?.CLOUDFLARE_VERSION_METADATA;
+  const workerVersion = c.env.CLOUDFLARE_VERSION_METADATA;
 
   if (workerVersion) {
     headers.set(WORKER_VERSION_ID_RESPONSE_HEADER, workerVersion.id);
@@ -131,4 +131,4 @@ router.get(async (request, {env}) => {
   return response;
 });
 
-export default router;
+export default app;

@@ -1,13 +1,10 @@
 name = "scorekeep-web"
+compatibility_date = "2025-11-13"
 
-compatibility_date = "2025-01-29"
+main = "./build/server/server.js"
 
-workers_dev = false
-
-main = "build/server/server.js"
-
-[build]
-command = ""
+[assets]
+directory = "./build/public"
 
 [version_metadata]
 binding = "CLOUDFLARE_VERSION_METADATA"
