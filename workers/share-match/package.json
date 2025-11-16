@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "types": "./build/typescript/share-match.d.ts"
+    ".": "./share-match.ts"
   },
   "scripts": {
     "build": "rollup --config ./rollup.config.js",
